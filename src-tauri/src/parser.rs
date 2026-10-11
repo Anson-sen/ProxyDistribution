@@ -74,6 +74,26 @@ fn yaml_value_to_proxy_node(val: &serde_yaml::Value) -> Option<ProxyNode> {
     let server = mapping.get(&serde_yaml::Value::String("server".to_string()))?.as_str()?.to_string();
     let port = mapping.get(&serde_yaml::Value::String("port".to_string()))?.as_u64()? as u16;
 
+    // Filter out common informational / traffic announcement pseudo-nodes
+    let lower_name = name.to_lowercase();
+    if lower_name.contains("剩余流量")
+        || lower_name.contains("套餐到期")
+        || lower_name.contains("重置剩余")
+        || lower_name.contains("到期时间")
+        || lower_name.contains("流量重置")
+        || lower_name.contains("官方网站")
+        || lower_name.contains("官网")
+        || lower_name.contains("发布页")
+        || lower_name.contains("通知")
+        || lower_name.contains("公告")
+        || lower_name.contains("群组")
+        || lower_name.contains("频道")
+        || server.is_empty()
+        || port == 0
+    {
+        return None;
+    }
+
     Some(ProxyNode {
         name,
         node_type,
