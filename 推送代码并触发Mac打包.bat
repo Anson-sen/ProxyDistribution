@@ -6,7 +6,7 @@ echo   Target: https://github.com/Anson-sen/ProxyDistribution.git
 echo ========================================================
 echo.
 
-git push -u origin main
+git push -u origin main --tags
 
 echo.
 echo ========================================================
