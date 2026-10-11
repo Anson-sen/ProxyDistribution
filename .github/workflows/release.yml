@@ -66,8 +66,8 @@ jobs:
           fi
           if [ "${{ matrix.target }}" = "x86_64-apple-darwin" ]; then
             if [ ! -f src-tauri/bin/mihomo-x86_64-apple-darwin ]; then
-              echo "Fetching mihomo-darwin-amd64 v1.19.32..."
-              curl -L -s https://github.com/MetaCubeX/mihomo/releases/download/v1.19.32/mihomo-darwin-amd64-v1.19.32.gz -o /tmp/mihomo-amd64.gz
+              echo "Fetching mihomo-darwin-amd64-compatible v1.19.32..."
+              curl -L -s https://github.com/MetaCubeX/mihomo/releases/download/v1.19.32/mihomo-darwin-amd64-compatible-v1.19.32.gz -o /tmp/mihomo-amd64.gz
               gzip -d /tmp/mihomo-amd64.gz
               mv /tmp/mihomo-amd64 src-tauri/bin/mihomo-x86_64-apple-darwin
             fi
@@ -80,10 +80,10 @@ jobs:
         run: |
           mkdir -p src-tauri/bin
           if [ ! -f src-tauri/bin/mihomo-x86_64-pc-windows-msvc.exe ]; then
-            echo "Fetching mihomo-windows-amd64 v1.19.32..."
-            curl -L -s https://github.com/MetaCubeX/mihomo/releases/download/v1.19.32/mihomo-windows-amd64-v1.19.32.zip -o /tmp/mihomo-win.zip
+            echo "Fetching mihomo-windows-amd64-compatible v1.19.32..."
+            curl -L -s https://github.com/MetaCubeX/mihomo/releases/download/v1.19.32/mihomo-windows-amd64-compatible-v1.19.32.zip -o /tmp/mihomo-win.zip
             unzip -q /tmp/mihomo-win.zip -d /tmp/mihomo-win
-            mv /tmp/mihomo-win/mihomo-windows-amd64.exe src-tauri/bin/mihomo-x86_64-pc-windows-msvc.exe
+            mv /tmp/mihomo-win/mihomo-windows-amd64*.exe src-tauri/bin/mihomo-x86_64-pc-windows-msvc.exe
           fi
 
       - name: Install npm dependencies

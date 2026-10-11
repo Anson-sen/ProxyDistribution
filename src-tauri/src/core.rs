@@ -55,15 +55,23 @@ pub fn find_available_port(ip: &str, mut port: u16) -> u16 {
 }
 
 pub fn locate_mihomo_binary(app: &tauri::AppHandle) -> Result<PathBuf, String> {
-    let names = vec![
-        "mihomo-x86_64-pc-windows-msvc.exe",
-        "mihomo.exe",
-        "mihomo-aarch64-apple-darwin",
-        "mihomo-x86_64-apple-darwin",
-        "mihomo-darwin-arm64",
-        "mihomo-darwin-amd64",
-        "mihomo",
-    ];
+    let mut names = Vec::new();
+    if cfg!(windows) {
+        names.push("mihomo-x86_64-pc-windows-msvc.exe");
+        names.push("mihomo.exe");
+    } else if std::env::consts::ARCH == "aarch64" {
+        names.push("mihomo-aarch64-apple-darwin");
+        names.push("mihomo-darwin-arm64");
+        names.push("mihomo");
+        names.push("mihomo-x86_64-apple-darwin");
+        names.push("mihomo-darwin-amd64");
+    } else {
+        names.push("mihomo-x86_64-apple-darwin");
+        names.push("mihomo-darwin-amd64");
+        names.push("mihomo");
+        names.push("mihomo-aarch64-apple-darwin");
+        names.push("mihomo-darwin-arm64");
+    }
 
     let search_dirs = [
         PathBuf::from("src-tauri/bin"),
